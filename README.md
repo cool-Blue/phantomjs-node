@@ -60,6 +60,16 @@ $ npm install phantom --save
 
 ## `phantom` object API
 
+
+### Contexts
+Phantomjs has two native levels of context: 
+ 1. the outer context which loads and manages the target page(s) and has access to `stdin` and `stdout`, supported by "node-like" utilities and a commonJS module system.
+ 2. the inner context of the target page which is the headless browser itself.
+
+Phantomjs-node adds another context, rooted in nodeJS, to manage the phantomjs instance remotely.
+
+
+
 ### `phantom#create`
 
 To create a new instance of `phantom` use `phantom.create()` which returns a `Promise` which should resolve with a `phantom` object.
@@ -294,11 +304,24 @@ page.switchToMainFrame().then(function() {
 
 ### `page#defineMethod`
 
-A method can be defined using the `#defineMethod(name, definition)` method.
+Defines a custom method on the current page object in phantom's outer context using the `#defineMethod(name, definition)` method.
+
+When defining asynchronous methods, the last argument in the signature should be a callback.
+
+The `page#defineMethod` promise resolves to value returned via the callback or `undefined`.
 
 ```js
+// synchronous method
 page.defineMethod('getZoomFactor', function() {
 	return this.zoomFactor;
+});
+
+// asynchronous method
+page.defineMethod('getZoomFactor', function(delay, done) {
+  var page = this;
+  setTimeout(function(){
+    done(page.zoomFactor)
+  }, delay)
 });
 ```
 
