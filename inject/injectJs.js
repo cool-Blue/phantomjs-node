@@ -50,11 +50,3 @@ phantom.create().then(ph => {
         return _ph.exit();
       })
   }).catch(console.dir.bind(console))
-  .then(_ => {
-    console.log('starting native...')
-    return phantom.create(['native-injectJs.js', '--remote-debugger-port=9000'])
-      .then(ph => {
-        console.log('new page')
-        return 'done'
-      })
-  }).catch(console.log.bind(console));
