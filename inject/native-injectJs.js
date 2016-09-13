@@ -6,7 +6,7 @@ var system = require('system');
 var page;
 
 // user supplied url
-var myurl = system.args[1] || '../fixtures/inject/testSimple.html';
+var myurl = system.args[1] || 'testSimple.html';
 
 page = require('webpage').create();
 
@@ -20,7 +20,7 @@ page.onConsoleMessage = function(message) {
 };
 
 page.onInitialized = function() {
-  page.injectJs('../fixtures/inject/test-inject.js');
+  page.injectJs('test-inject.js');
 };
 
 // page.settings.javascriptEnabled = false;
