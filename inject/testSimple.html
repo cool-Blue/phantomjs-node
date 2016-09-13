@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- target page -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>test animation in phantomjs</title>
+    <style>
+        body {
+            background-color: beige;
+        }
+        #phantom {
+            background-image: url('http://phantomjs.org/img/phantomjs-logo.png');
+            height: 80px;
+            left: 100px;
+            top: 100px;
+            width: 240px;
+            position: fixed;
+            z-index: 2;
+        }
+    </style>
+    <link href="https://d17wj6ajhy2qee.cloudfront.net/assets/bower/bootstrap/dist/css/bootstrap-d2ab08de4855f3f73d2ecec6da794293.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<script src="https://d17wj6ajhy2qee.cloudfront.net/assets/javascripts/jquery-2.1.1.min-6631a779321bc03f4a5281d3ff526254.js"></script>
+
+<script>
+    function checkInjection() {
+        var inj = document.getElementById('injected');
+        console.log(inj && inj.textContent || 'not injected!!');
+    }
+    void function() {
+        console.log("page script running...");
+        checkInjection();
+        var $phantom = $('<div />', {
+                id: "phantom"
+            }).appendTo('body')
+    }($)
+</script>
+</body>
+</html>
