@@ -4,7 +4,22 @@
 var phantom = require("../lib/index");
 var _ph, _page, _outObj;
 
-phantom.create().then(ph => {
+function trace () {
+  try {
+    throw new Error();
+  } catch(e) {
+    var stack = e.stack;
+    if(stack) {
+      stack = stack.split('\n').slice(2)
+        .map(function(l) { return '\t' + l}).join('\n');
+      return (stack + '\n');
+    }
+  }
+}
+
+
+// phantom.create(['--remote-debugger-port=9000'], {logLevel: 'debug'}).then(ph => {
+  phantom.create([]).then(ph => {
 
     _ph = ph;
     return _ph.createPage();
@@ -27,11 +42,12 @@ phantom.create().then(ph => {
       },
       log    = _ => {
         return page.on('onConsoleMessage', function(message) {
-          process.stdout.write('> ' + message + '\n')
+          process.stdout.write('-> ' + message + '\n')
         })
       },
       open   = (page, url) => {
         return _ => page.open(url)
+          .then(_ => url + '\t' + _)
       };
 
   return Promise.all(

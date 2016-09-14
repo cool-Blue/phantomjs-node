@@ -25,12 +25,29 @@
 <script src="https://d17wj6ajhy2qee.cloudfront.net/assets/javascripts/jquery-2.1.1.min-6631a779321bc03f4a5281d3ff526254.js"></script>
 
 <script>
+    function trace () {
+        try {
+            throw new Error();
+        } catch(e) {
+            var stack = e.stack;
+            if(stack) {
+                stack = stack.split('\n').slice(2)
+                    .map(function(l) { return '\t' + l}).join('\n');
+                return (stack ? (stack + '\n') : '');
+            } else
+                return 'stack is blank'
+        }
+    }
+
+    debugger;
+    var trce = trace()
+    console.log("page script tag is running...\n\t" + (trce ? trce : 'blank trace'));
+
     function checkInjection() {
         var inj = document.getElementById('injected');
         console.log(inj && inj.textContent || 'not injected!!');
     }
     void function() {
-        console.log("page script running...");
         checkInjection();
         var $phantom = $('<div />', {
                 id: "phantom"

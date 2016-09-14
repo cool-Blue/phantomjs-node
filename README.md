@@ -304,24 +304,11 @@ page.switchToMainFrame().then(function() {
 
 ### `page#defineMethod`
 
-Defines a custom method on the current page object in phantom's outer context using the `#defineMethod(name, definition)` method.
-
-When defining asynchronous methods, the last argument in the signature should be a callback.
-
-The `page#defineMethod` promise resolves to value returned via the callback or `undefined`.
+A method can be defined using the `#defineMethod(name, definition)` method.
 
 ```js
-// synchronous method
 page.defineMethod('getZoomFactor', function() {
 	return this.zoomFactor;
-});
-
-// asynchronous method
-page.defineMethod('getZoomFactor', function(delay, done) {
-  var page = this;
-  setTimeout(function(){
-    done(page.zoomFactor)
-  }, delay)
 });
 ```
 
