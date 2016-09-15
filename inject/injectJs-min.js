@@ -4,7 +4,7 @@
 var phantom = require("../lib/index");
 var _ph;
 
-  phantom.create([]).then(ph => {
+  phantom.create([], {logLevel: 'debug'}).then(ph => {
 
     _ph = ph;
     return _ph.createPage();
@@ -22,9 +22,8 @@ var _ph;
       .then(_ => page.evaluate(function() {checkInjection()}))  // not injected
       .then(_ => {
         console.log('page closed');
-          _page.close();
           return page.close()
-            .then(_ => _ph.exit())
+            .then(_ => _ph.exit().then(_ => console.log('exiting... ' + _)))
         })
       }).catch(console.dir.bind(console));
 
